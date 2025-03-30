@@ -19,8 +19,7 @@ include_directories(
 # Find packages
 find_package(OpenGL REQUIRED)
 find_package(glm REQUIRED)
-set(GLFW_ROOT "/opt/homebrew/Cellar/glfw/3.4")
-find_package(glfw3 REQUIRED HINTS ${GLFW_ROOT} PATHS ${GLFW_ROOT}/lib/cmake/glfw3)
+find_package(glfw3 REQUIRED)
 
 
 # Add GLAD

@@ -2,7 +2,7 @@
 
 #include <string>
 #include <functional>
-#include <GLFW/glfw3.h>
+#include "/opt/homebrew/Cellar/glfw/3.4/include/GLFW/glfw3.h"
 
 namespace Engine {
 
@@ -31,8 +31,8 @@ class Window {
         unsigned int GetHeight() const { return m_Data.Height; }
 
         // Window attributes
-        void SetEventCallback(const EventCallbackfn& callback) {m_Data.EventCallback = callback; }
-        void SetVsync(bool enabled);
+        void SetEventCallback(const EventCallbackFn& callback) {m_Data.EventCallback = callback; }
+        void SetVSync(bool enabled);
         void IsVsync() const;
 
         void* GetNativeWindow() const { return m_Window; }
