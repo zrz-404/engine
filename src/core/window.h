@@ -3,7 +3,6 @@
 #include <string>
 #include <functional>
 #include "/opt/homebrew/Cellar/glfw/3.4/include/GLFW/glfw3.h"
-
 namespace Engine {
 
 struct WindowProps {
@@ -11,43 +10,48 @@ struct WindowProps {
     unsigned int Width;
     unsigned int Height;
 
-    WindowProps(const std::string& title = "zrz",
+    WindowProps(const std::string& title = "My Game Engine",
                 unsigned int width = 1280,
                 unsigned int height = 720)
         : Title(title), Width(width), Height(height) {}
 };
 
-//window class providing a cross-platform window abstraction
+// Window class providing a cross-platform window abstraction
 class Window {
-    public:
-        using EventCallbackFn = std::function<void(/*Event& event*/)>;
+public:
+    // Define WindowData struct early for reference in callbacks
+    struct WindowData {
+        std::string Title;
+        unsigned int Width, Height;
+        bool VSync;
 
-        Window(const WindowProps& props);
-        ~Window();
+        std::function<void(/*Event& event*/)> EventCallback;
+    };
 
-        void OnUpdate();
+    using EventCallbackFn = std::function<void(/*Event& event*/)>;
 
-        unsigned int GetWidth() const { return m_Data.Width; }
-        unsigned int GetHeight() const { return m_Data.Height; }
+    Window(const WindowProps& props);
+    ~Window();
 
-        // Window attributes
-        void SetEventCallback(const EventCallbackFn& callback) {m_Data.EventCallback = callback; }
-        void SetVSync(bool enabled);
-        void IsVsync() const;
+    void OnUpdate();
 
-        void* GetNativeWindow() const { return m_Window; }
+    unsigned int GetWidth() const { return m_Data.Width; }
+    unsigned int GetHeight() const { return m_Data.Height; }
 
-    private:
-        GLFWwindow* m_Window;
+    // Window attributes
+    void SetEventCallback(const EventCallbackFn& callback) { m_Data.EventCallback = callback; }
+    void SetVSync(bool enabled);
+    bool IsVSync() const;
 
-        struct WindowData {
-            std::string Title;
-            unsigned int Width, Height;
-            bool VSync;
+    void* GetNativeWindow() const { return m_Window; }
 
-            EventCallbackFn EventCallback;
-        };
-        WindowData m_Data;
+private:
+    void Init(const WindowProps& props);
+    void Shutdown();
+
+private:
+    GLFWwindow* m_Window;
+    WindowData m_Data;
 };
 
-} // namespace engine
+} // namespace Engine
