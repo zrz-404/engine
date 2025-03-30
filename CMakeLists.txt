@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.16)
-project(MyGameEngine VERSION 0.1.0 LANGUAGES CXX)
+project(Z-Engine VERSION 0.1.0 LANGUAGES CXX)
 
 # Set C++ standard
 set(CMAKE_CXX_STANDARD 17)
@@ -18,8 +18,10 @@ include_directories(
 
 # Find packages
 find_package(OpenGL REQUIRED)
-find_package(glfw3 REQUIRED)
 find_package(glm REQUIRED)
+set(GLFW_ROOT "/opt/homebrew/Cellar/glfw/3.4")
+find_package(glfw3 REQUIRED HINTS ${GLFW_ROOT} PATHS ${GLFW_ROOT}/lib/cmake/glfw3)
+
 
 # Add GLAD
 add_library(glad STATIC
@@ -30,7 +32,7 @@ target_include_directories(glad PUBLIC
 )
 
 # Gather source files
-file(GLOB_RECURSE ENGINE_SOURCES 
+file(GLOB_RECURSE ENGINE_SOURCES
     "${PROJECT_SOURCE_DIR}/src/*.cpp"
 )
 
@@ -46,7 +48,7 @@ target_link_libraries(engine PUBLIC
 )
 
 # Main executable
-add_executable(engine_app 
+add_executable(engine_app
     ${PROJECT_SOURCE_DIR}/src/main.cpp
 )
 
